@@ -33,7 +33,7 @@ function preload(){
 
 
 function setup() {
-  createCanvas(displayWidth-10,displayHeight-150);
+  createCanvas(windowWidth,windowHeight);
 
   scene = createSprite(width/2, height/2, width, height);
   scene.addImage(day1_img);
@@ -94,6 +94,11 @@ function draw() {
       scene.x = width/2;
     
     }
+
+    if (touches.length > 0 || keyIsDown(32) && dave.y > 535  ) {
+      dave.velocityY = -18;
+      touches = [];
+     }  
   
     dave.velocityY +=  0.5;
   
@@ -158,8 +163,9 @@ function draw() {
 
   }
 
-  if(mousePressedOver(restart)) {
-      reset();    
+  if(mousePressedOver(restart) ||  touches.length > 0) {
+      reset();   
+      touches = [];
   }
 
   dave.collide(invisibleGround);
@@ -167,7 +173,7 @@ function draw() {
   drawSprites();
   textSize(20);
   textAlign(CENTER);
-  fill ("green");
+  fill ("white");
   text ("Score : " + score, width - 200, 100);
 
 }
@@ -188,13 +194,6 @@ function reset() {
   score = 0;
 
   scene.velocityX = -5;
-
-}
-
-function keyPressed() {
-  if (keyCode === 32 && dave.y > 535) {
-   dave.velocityY = -18;
-  } 
 
 }
 
